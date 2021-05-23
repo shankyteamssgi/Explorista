@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@color/white"/>
+    <item
+        android:bottom="900dp"
+        android:top="880dp"
+        android:left="900dp"
+        android:right="900dp"
+        android:drawable="@drawable/exp_splash_icon"
+        android:gravity="center">
+
+    </item>
+
+</layer-list>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".LoginOrSignUpActivity"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/rlv"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginBottom="130dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/rlv1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/custom_rectangle"
+            android:orientation="vertical" >
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/ll_data"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:contentDescription="@string/app_name"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="3dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/explorista_logo_fn"
+                        android:layout_marginBottom="8dp"
+                        android:layout_width="70dp"
+                        android:layout_height="100dp"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/philosopher"
+                        android:gravity="center"
+                        android:text="@string/explorista_txt"
+                        android:textAlignment="gravity"
+                        android:textColor="@color/black"
+                        android:textSize="25sp" />
+
+
+                    <LinearLayout
+                        android:id="@+id/login_visibility"
+                        android:visibility="visible"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginTop="50dp"
+                            android:layout_marginEnd="30dp"
+                            android:layout_marginRight="30dp"
+                            android:fontFamily="@font/philosopher_regular"
+                            android:text="@string/phone_number"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:fitsSystemWindows="true"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginEnd="30dp"
+                            android:background="@drawable/edit_text_shape_bg_color"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp">
+
+
+                            <EditText
+                                android:id="@+id/txt_username_customer_login"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginStart="130dp"
+                                android:background="@null"
+                                android:fontFamily="@font/philosopher_regular"
+                                android:hint="@string/phone_number"
+                                android:inputType="textFilter"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:text="9179040712"
+                                android:textColor="@color/black"
+                                android:textColorHint="#808080"
+                                android:textSize="14sp"
+                                tools:ignore="RtlHardcoded,RtlSymmetry,TextViewEdits" />
+
+                            <ImageView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="115dp"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/verified_icon" />
+
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="30dp"
+                            android:layout_marginRight="30dp"
+                            android:fontFamily="@font/philosopher_regular"
+                            android:text="@string/name"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp">
+
+                            <ImageView
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginStart="30dp"
+                                android:src="@drawable/ic_name"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:contentDescription="@string/app_name" />
+
+                            <EditText
+                                android:id="@+id/txt_reg_mobilery_boy"
+                                style="@style/Text_Line"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="30dp"
+                                android:hint="@string/enter_your_name"
+                                android:digits="0123456789"
+                                android:fontFamily="@font/philosopher_regular"
+                                android:inputType="number"
+                                android:maxLength="10"
+                                android:singleLine="true"
+                                android:textAlignment="gravity"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                tools:ignore="LabelFor,RtlHardcoded,TextViewEdits" />
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnLinSubmitCustomer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/login_or_sign_up_ctm_bg"
+                            android:fontFamily="@font/philosopher_regular"
+                            android:gravity="center"
+                            android:text="@string/txt_proceed"
+                            android:textAllCaps="false"
+                            android:textColor="#fff"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+

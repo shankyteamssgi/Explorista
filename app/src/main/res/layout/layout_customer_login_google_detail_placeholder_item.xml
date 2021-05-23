@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".LoginGoogleDetailActivity"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:id="@+id/rl_try_again"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_oops_something_went_wrong"
+            android:textColor="@color/black"
+            android:text="@string/something_went"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:fontFamily="@font/philosopher"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btn_try_again"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/tv_oops_something_went_wrong"
+            android:text="@string/txt_try_again"
+            android:paddingLeft="15dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:paddingRight="15dp"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:fontFamily="@font/philosopher"
+            android:background="@drawable/login_or_sign_up_ctm_bg"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_no_internet"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_no_internet"
+            android:textColor="@color/black"
+            android:text="@string/no_internet_connection"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:fontFamily="@font/philosopher"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btn_no_internet"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/tv_no_internet"
+            android:text="@string/reload_page"
+            android:paddingLeft="15dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:paddingRight="15dp"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:fontFamily="@font/philosopher"
+            android:background="@drawable/login_or_sign_up_ctm_bg"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_no_record_found"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/no_record_found"
+            android:textColor="@color/black"
+            android:layout_centerInParent="true"
+            android:text="@string/no_record_found"
+            android:textSize="16sp"
+            android:fontFamily="@font/philosopher"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_one_login_google_detail"
+        android:visibility="visible"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/login_or_sign_up_ll_one"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/login_or_sign_up_ll_two"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginBottom="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/custom_rectangle"
+                android:orientation="vertical" >
+
+                <androidx.core.widget.NestedScrollView
+                    android:id="@+id/login_or_sign_up_nsv_one"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/login_or_sign_up_ll_three"
+                        android:visibility="visible"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/ll_image_plus_text"
+                            android:orientation="vertical"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:contentDescription="@string/app_name"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="10dp"
+                                android:scaleType="centerCrop"
+                                android:background="@color/login_or_sign_up_bg_color"
+                                android:layout_marginBottom="8dp"
+                                android:layout_width="70dp"
+                                android:layout_height="100dp"/>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/philosopher"
+                                android:gravity="center"
+                                android:text="@string/explorista_txt"
+                                android:textAlignment="gravity"
+                                android:background="@color/login_or_sign_up_bg_color"
+                                android:textColor="@color/login_or_sign_up_bg_color"
+                                android:textSize="25sp" />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/login_visibility"
+                            android:visibility="visible"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:layout_marginLeft="30dp"
+                                android:layout_marginTop="55dp"
+                                android:layout_marginEnd="30dp"
+                                android:layout_marginRight="30dp"
+                                android:background="@color/login_or_sign_up_bg_color"
+                                android:fontFamily="@font/philosopher_regular"
+                                android:text="@string/name"
+                                android:textColor="@color/login_or_sign_up_bg_color"
+                                android:textSize="15sp" />
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center"
+                                android:fitsSystemWindows="true"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:layout_marginEnd="30dp"
+                                android:background="@drawable/login_or_sign_up_ctm_bg_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp">
+
+
+
+                                <TextView
+                                    android:id="@+id/tv_name_login_google_detail"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:background="@null"
+                                    android:layout_weight="1"
+                                    android:singleLine="true"
+                                    android:maxLines="1"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_marginStart="20dp"
+                                    android:fontFamily="@font/philosopher_regular"
+                                    android:hint="@string/name"
+                                    android:textColor="@color/login_or_sign_up_bg_color"
+                                    android:textColorHint="@color/login_or_sign_up_bg_color"
+                                    android:textSize="14sp"
+                                    tools:ignore="RtlHardcoded,RtlSymmetry,TextViewEdits" />
+
+                                <ImageView
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="6dp"
+                                    android:contentDescription="@string/app_name"
+                                    />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:layout_marginLeft="30dp"
+                                android:layout_marginTop="30dp"
+                                android:layout_marginEnd="30dp"
+                                android:layout_marginRight="30dp"
+                                android:background="@color/login_or_sign_up_bg_color"
+                                android:fontFamily="@font/philosopher_regular"
+                                android:text="@string/gmail"
+                                android:textColor="@color/login_or_sign_up_bg_color"
+                                android:textSize="15sp" />
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center"
+                                android:fitsSystemWindows="true"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="30dp"
+                                android:layout_marginEnd="30dp"
+                                android:background="@drawable/login_or_sign_up_ctm_bg_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp">
+
+
+
+                                <TextView
+                                    android:id="@+id/tv_gmail_login_google_detail"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:background="@null"
+                                    android:layout_weight="1"
+                                    android:singleLine="true"
+                                    android:maxLines="1"
+                                    android:inputType="textEmailAddress"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_marginStart="20dp"
+                                    android:fontFamily="@font/philosopher_regular"
+                                    android:hint="@string/gmail"
+                                    android:textColor="@color/login_or_sign_up_bg_color"
+                                    android:textColorHint="@color/login_or_sign_up_bg_color"
+                                    android:textSize="14sp"
+                                    tools:ignore="RtlHardcoded,RtlSymmetry,TextViewEdits" />
+
+                                <ImageView
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="6dp"
+                                    android:contentDescription="@string/app_name" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:layout_marginLeft="30dp"
+                                android:layout_marginTop="30dp"
+                                android:layout_marginEnd="30dp"
+                                android:layout_marginRight="30dp"
+                                android:background="@color/login_or_sign_up_bg_color"
+                                android:fontFamily="@font/philosopher_regular"
+                                android:text="@string/please_enter_your_mobile_number"
+                                android:textColor="@color/login_or_sign_up_bg_color"
+                                android:textSize="15sp" />
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp">
+
+                                <ImageView
+                                    android:layout_marginEnd="5dp"
+                                    android:layout_marginStart="30dp"
+                                    android:background="@color/login_or_sign_up_bg_color"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:contentDescription="@string/app_name" />
+
+                                <TextView
+                                    android:id="@+id/txt_phone_login_google_detail"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="30dp"
+                                    android:background="@color/login_or_sign_up_bg_color"
+                                    android:digits="0123456789"
+                                    android:fontFamily="@font/philosopher_regular"
+                                    android:inputType="number"
+                                    android:maxLength="10"
+                                    android:singleLine="true"
+                                    android:textAlignment="gravity"
+                                    android:textColor="@color/login_or_sign_up_bg_color"
+                                    android:textSize="16sp"
+                                    tools:ignore="LabelFor,RtlHardcoded,TextFields,TextViewEdits" />
+                            </LinearLayout>
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/btnLoginGoogleDetailSubmit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="35dp"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="25dp"
+                                android:layout_marginBottom="10dp"
+                                android:background="@drawable/login_or_sign_up_ctm_bg"
+                                android:fontFamily="@font/philosopher_regular"
+                                android:gravity="center"
+                                android:text="@string/txt_proceed"
+                                android:textAllCaps="false"
+                                android:textColor="@color/login_or_sign_up_bg_color"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+
+                </androidx.core.widget.NestedScrollView>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="-10dp"
+                android:rotation="180"
+                android:src="@drawable/custom_triangular_shape"
+                android:contentDescription="@string/app_name" />
+        </LinearLayout>
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_alignBottom="@+id/rlv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="UnknownIdInLayout">
+
+            <LinearLayout
+                android:id="@+id/continue_with"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/continue_with_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:visibility="visible"
+                    android:fontFamily="@font/philosopher_regular"
+                    android:text="@string/continue_with"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+
+                <TextView
+                    android:id="@+id/continue_with_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:fontFamily="@font/philosopher_regular"
+                    android:text="@string/continue_with"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_below="@+id/continue_with"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/img_google"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="10dp"
+                    android:contentDescription="@string/app_name" />
+
+                <ImageView
+                    android:id="@+id/img_facebook_one"
+                    android:layout_width="40dp"
+                    android:clickable="true"
+                    android:visibility="visible"
+                    android:focusable="true"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:contentDescription="@string/app_name" />
+
+                <ImageView
+                    android:id="@+id/img_facebook_two"
+                    android:layout_width="40dp"
+                    android:clickable="true"
+                    android:visibility="gone"
+                    android:focusable="true"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:contentDescription="@string/app_name" />
+
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>
+
+
+
+
+
+
+
+
+
+
