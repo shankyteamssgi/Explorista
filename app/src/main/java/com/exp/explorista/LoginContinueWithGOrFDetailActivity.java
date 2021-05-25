@@ -11,4 +11,5 @@ public class LoginContinueWithGOrFDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_continue_with_g_or_f_detail);
     }
+
 }

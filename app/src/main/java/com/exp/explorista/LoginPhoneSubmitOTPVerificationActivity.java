@@ -241,6 +241,7 @@ public class LoginPhoneSubmitOTPVerificationActivity extends AppCompatActivity {
                     otp_textbox_two.setText(two_fn);
                     otp_textbox_three.setText(three_fn);
                     otp_textbox_four.setText(four_fn);
+                    otp_verification();
 //                    SharedPreferences sharedPreferences = getSharedPreferences("fn_data",MODE_PRIVATE);
 //                    SharedPreferences.Editor editor = sharedPreferences.edit();
 //                    editor.putString("key_otp_data",ttttt);
@@ -325,7 +326,9 @@ public class LoginPhoneSubmitOTPVerificationActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<LoginPhoneSubmitOTPResendResponse> call, Response<LoginPhoneSubmitOTPResendResponse> response) {
 
-                    if (response.body().getMessageResponse().equals("otp updated"))
+
+
+                     if (response.body().getMessageResponse().equals("otp updated"))
                     {
 
                        // Toast.makeText(LoginPhoneSubmitOTPVerificationActivity.this, "OTP Updated", Toast.LENGTH_SHORT).show();
@@ -419,7 +422,30 @@ public class LoginPhoneSubmitOTPVerificationActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<LoginPhoneSubmitOTPVerificationResponse> call, Response<LoginPhoneSubmitOTPVerificationResponse> response) {
 
-                    if (response.body().getMessageResponse().equals("otp valid exist data regd"))
+
+
+                    if (response.body().getMessageResponse().equals("otp expired"))
+                    {
+
+                        Toast.makeText(LoginPhoneSubmitOTPVerificationActivity.this, "OTP Expired", Toast.LENGTH_SHORT).show();
+                        SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.apply();
+                        Intent intent = new Intent(LoginPhoneSubmitOTPVerificationActivity.this,LoginOrSignUpActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        otp_textbox_one.setText("");
+                        otp_textbox_two.setText("");
+                        otp_textbox_three.setText("");
+                        otp_textbox_four.setText("");
+                        ll_otp.setVisibility(View.VISIBLE);
+                        shimmerFrameLayout.stopShimmer();
+                        llShimmer.setVisibility(View.GONE);
+
+                    }
+
+                   else  if (response.body().getMessageResponse().equals("otp valid exist data regd"))
                     {
 
                         Toast.makeText(LoginPhoneSubmitOTPVerificationActivity.this, "OTP Matched", Toast.LENGTH_SHORT).show();

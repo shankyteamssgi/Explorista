@@ -273,6 +273,7 @@ public class LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity extends 
                     otp_textbox_two.setText(two_fn);
                     otp_textbox_three.setText(three_fn);
                     otp_textbox_four.setText(four_fn);
+                    otp_verification();
 //                    SharedPreferences sharedPreferences = getSharedPreferences("fn_data",MODE_PRIVATE);
 //                    SharedPreferences.Editor editor = sharedPreferences.edit();
 //                    editor.putString("key_otp_data",ttttt);
@@ -446,12 +447,36 @@ public class LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity extends 
                 @Override
                 public void onResponse(Call<LoginGoogleSubmitBeforeOTPVerificationNotExistUserResponse> call, Response<LoginGoogleSubmitBeforeOTPVerificationNotExistUserResponse> response) {
 
-                    if (response.body().getMessageResponse().equals("user already exist"))
+                    if (response.body().getMessageResponse().equals("otp expired"))
+                    {
+
+                        Toast.makeText(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this, "OTP Expired", Toast.LENGTH_SHORT).show();
+                        SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.apply();
+                        Intent intent = new Intent(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this,LoginOrSignUpActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        otp_textbox_one.setText("");
+                        otp_textbox_two.setText("");
+                        otp_textbox_three.setText("");
+                        otp_textbox_four.setText("");
+                        ll_otp.setVisibility(View.VISIBLE);
+                        shimmerFrameLayout.stopShimmer();
+                        llShimmer.setVisibility(View.GONE);
+
+                    }
+
+                   else   if (response.body().getMessageResponse().equals("user already exist"))
                     {
                         Toast.makeText(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this, "111111111", Toast.LENGTH_SHORT).show();
 
                         Toast.makeText(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this, "Data success 123", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this,DashboardActivity.class);
+                        Intent intent = new Intent(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this,LoginOrSignUpActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -459,6 +484,10 @@ public class LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity extends 
                         editor.putString("key_login_google_phone_fn_dashboard",cust_phone);
                         editor.putString("key_value_three_fn_dashboard",unique_two);
                         editor.apply();
+                        SharedPreferences sharedPreferences11 = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
+                        SharedPreferences.Editor editor11 = sharedPreferences11.edit();
+                        editor11.clear();
+                        editor11.apply();
                         mGoogleSignInClient.signOut()
                                 .addOnCompleteListener(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this, new OnCompleteListener<Void>() {
                                     @Override
@@ -618,6 +647,10 @@ public class LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity extends 
                         Intent intent = new Intent(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this,LoginOrSignUpActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
+                        SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.apply();
                         mGoogleSignInClient.signOut()
                                 .addOnCompleteListener(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this, new OnCompleteListener<Void>() {
                                     @Override

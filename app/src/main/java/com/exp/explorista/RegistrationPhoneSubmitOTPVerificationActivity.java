@@ -238,6 +238,7 @@ public class RegistrationPhoneSubmitOTPVerificationActivity extends AppCompatAct
                     otp_textbox_two.setText(two_fn);
                     otp_textbox_three.setText(three_fn);
                     otp_textbox_four.setText(four_fn);
+                    otp_verification();
 //                    SharedPreferences sharedPreferences = getSharedPreferences("fn_data",MODE_PRIVATE);
 //                    SharedPreferences.Editor editor = sharedPreferences.edit();
 //                    editor.putString("key_otp_data",ttttt);
@@ -409,7 +410,29 @@ public class RegistrationPhoneSubmitOTPVerificationActivity extends AppCompatAct
                 @Override
                 public void onResponse(Call<RegistrationPhoneSubmitOTPVerificationResponse> call, Response<RegistrationPhoneSubmitOTPVerificationResponse> response) {
 
-                    if (response.body().getMessageResponse().equals("otp valid exist data regd"))
+                    if (response.body().getMessageResponse().equals("otp expired"))
+                    {
+
+                        Toast.makeText(RegistrationPhoneSubmitOTPVerificationActivity.this, "OTP Expired", Toast.LENGTH_SHORT).show();
+                        SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.apply();
+                        Intent intent = new Intent(RegistrationPhoneSubmitOTPVerificationActivity.this,LoginOrSignUpActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        otp_textbox_one.setText("");
+                        otp_textbox_two.setText("");
+                        otp_textbox_three.setText("");
+                        otp_textbox_four.setText("");
+                        ll_otp.setVisibility(View.VISIBLE);
+                        shimmerFrameLayout.stopShimmer();
+                        llShimmer.setVisibility(View.GONE);
+
+                    }
+
+
+                    else if (response.body().getMessageResponse().equals("otp valid exist data regd"))
                     {
 
                         Toast.makeText(RegistrationPhoneSubmitOTPVerificationActivity.this, "OTP Matched", Toast.LENGTH_SHORT).show();
