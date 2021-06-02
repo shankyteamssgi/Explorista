@@ -12,7 +12,7 @@ public class RetrofitClient
 
 {
 
-    private static final String ROOT_URL = "http://192.168.43.226/explorista_customer/";
+    private static final String ROOT_URL = "http://3.16.188.152/explorista_customer/";
     // 3.16.188.152
    
     private static synchronized Retrofit getRetrofitInstance()
