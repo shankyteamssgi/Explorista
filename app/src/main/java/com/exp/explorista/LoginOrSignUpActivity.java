@@ -22,14 +22,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
-
 import com.exp.explorista.api.ApiService;
 import com.exp.explorista.helper.RetrofitClient;
+import com.exp.explorista.model.CheckOTPExpirationResponse;
 import com.exp.explorista.model.LoginGoogleCheckUserResponse;
+import com.exp.explorista.model.LoginPhoneSubmitOTPResendResponse;
 import com.exp.explorista.model.LoginPhoneSubmitResponse;
 import com.exp.explorista.model.RegistrationPhoneSubmitResponse;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -812,22 +812,25 @@ public class LoginOrSignUpActivity extends AppCompatActivity
         SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference, MODE_PRIVATE);
         SharedPreferences sharedPreferences_two = getSharedPreferences(PREF_UNIQUE_ID, MODE_PRIVATE);
         SharedPreferences sharedPreferences_three = getSharedPreferences("one_one", MODE_PRIVATE);
+
         try
         {
             if((sharedPreferences.getString("key_phone_one", null) != null ))
             {
+                data_phone_one();
 
                //  Intent intent1 = new Intent(LoginOrSignUpActivity.this,LoginPhoneOTPVerificationNotExistUserActivity.class);
-                Intent intent = new Intent(LoginOrSignUpActivity.this, LoginPhoneSubmitOTPVerificationActivity.class);
-                startActivity(intent);
+
 
             }
            else  if((sharedPreferences.getString("key_phone_two", null) != null ))
             {
 
+                data_phone_two();
+
                 //  Intent intent1 = new Intent(LoginOrSignUpActivity.this,LoginPhoneOTPVerificationNotExistUserActivity.class);
-                Intent intent = new Intent(LoginOrSignUpActivity.this, RegistrationPhoneSubmitOTPVerificationActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(LoginOrSignUpActivity.this, RegistrationPhoneSubmitOTPVerificationActivity.class);
+//                startActivity(intent);
 
             }
 
@@ -872,6 +875,221 @@ public class LoginOrSignUpActivity extends AppCompatActivity
         { e.printStackTrace(); }
     }
 
+    private void data_phone_two() {
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference, MODE_PRIVATE);
+        String cust_phone = sharedPreferences.getString("key_phone_two","");
+
+        try{
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (Objects.requireNonNull(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)).getState() == NetworkInfo.State.CONNECTED ||
+                    Objects.requireNonNull(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)).getState() == NetworkInfo.State.CONNECTED || (Objects.requireNonNull(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)).getState() == NetworkInfo.State.CONNECTED  && Objects.requireNonNull(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)).getState() == NetworkInfo.State.CONNECTED) ) {
+
+                rl_one.setVisibility(View.GONE);
+                shimmerFrameLayout.startShimmer();
+                llShimmer.setVisibility(View.VISIBLE);
+                ApiService api = RetrofitClient.getApiService();
+                Call<CheckOTPExpirationResponse> call = api.getCheckOTPExpiration(cust_phone);
+                call.enqueue(new Callback<CheckOTPExpirationResponse>() {
+                    @Override
+                    public void onResponse(Call<CheckOTPExpirationResponse> call, Response<CheckOTPExpirationResponse> response) {
+
+                        assert response.body() != null;
+                        if (response.body().getMessageResponse().equals("otp not expired")) {
+
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    Intent intent = new Intent(LoginOrSignUpActivity.this, RegistrationPhoneSubmitOTPVerificationActivity.class);
+                                    startActivity(intent);
+                                    rl_one.setVisibility(View.GONE);
+                                    shimmerFrameLayout.startShimmer();
+                                    llShimmer.setVisibility(View.VISIBLE);
+                                }
+                            }, 500);
+
+
+                        } else if (response.body().getMessageResponse().equals("otp expired")) {
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    rl_one.setVisibility(View.VISIBLE);
+                                    shimmerFrameLayout.stopShimmer();
+                                    llShimmer.setVisibility(View.GONE);
+                                    Toast.makeText(LoginOrSignUpActivity.this, "otp expired 123", Toast.LENGTH_SHORT).show();
+                                }
+                            }, 500);
+
+
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<CheckOTPExpirationResponse> call, Throwable t) {
+
+                        shimmerFrameLayout.stopShimmer();
+                        llShimmer.setVisibility(View.GONE);
+                        rl_one.setVisibility(View.GONE);
+                        rl_try_again.setVisibility(View.VISIBLE);
+                        btn_try_again.setOnClickListener(v -> {
+                            shimmerFrameLayout.startShimmer();
+                            llShimmer.setVisibility(View.VISIBLE);
+                            rl_try_again.setVisibility(View.GONE);
+                            Handler handler1 = new Handler();
+                            handler1.postDelayed(() -> data_phone_two(), 0);
+                        });
+
+                    }
+                });
+
+
+            }
+            else
+            {
+
+                shimmerFrameLayout.stopShimmer();
+                llShimmer.setVisibility(View.GONE);
+                rl_one.setVisibility(View.GONE);
+                rl_no_internet.setVisibility(View.VISIBLE);
+                btn_no_internet.setVisibility(View.VISIBLE);
+                btn_no_internet.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        shimmerFrameLayout.startShimmer();
+                        llShimmer.setVisibility(View.VISIBLE);
+                        btn_no_internet.setVisibility(View.GONE);
+                        rl_no_internet.setVisibility(View.GONE);
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                data_phone_two();
+                            }
+                        },500);
+                    }
+                });
+
+            }
+        }catch (Exception e){e.printStackTrace();}
+
+
+    }
+
+    private void data_phone_one() {
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference, MODE_PRIVATE);
+        String cust_phone = sharedPreferences.getString("key_phone_one","");
+
+        try{
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (Objects.requireNonNull(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)).getState() == NetworkInfo.State.CONNECTED ||
+                    Objects.requireNonNull(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)).getState() == NetworkInfo.State.CONNECTED || (Objects.requireNonNull(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)).getState() == NetworkInfo.State.CONNECTED  && Objects.requireNonNull(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)).getState() == NetworkInfo.State.CONNECTED) ) {
+
+                rl_one.setVisibility(View.GONE);
+                shimmerFrameLayout.startShimmer();
+                llShimmer.setVisibility(View.VISIBLE);
+                ApiService api = RetrofitClient.getApiService();
+                Call<CheckOTPExpirationResponse> call = api.getCheckOTPExpiration(cust_phone);
+                call.enqueue(new Callback<CheckOTPExpirationResponse>() {
+                    @Override
+                    public void onResponse(Call<CheckOTPExpirationResponse> call, Response<CheckOTPExpirationResponse> response) {
+
+                        assert response.body() != null;
+                        if (response.body().getMessageResponse().equals("otp not expired")) {
+
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    Intent intent = new Intent(LoginOrSignUpActivity.this, LoginPhoneSubmitOTPVerificationActivity.class);
+                                    startActivity(intent);
+                                    rl_one.setVisibility(View.GONE);
+                                    shimmerFrameLayout.startShimmer();
+                                    llShimmer.setVisibility(View.VISIBLE);
+                                }
+                            }, 500);
+
+
+                        } else if (response.body().getMessageResponse().equals("otp expired")) {
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    rl_one.setVisibility(View.VISIBLE);
+                                    shimmerFrameLayout.stopShimmer();
+                                    llShimmer.setVisibility(View.GONE);
+                                    Toast.makeText(LoginOrSignUpActivity.this, "otp expired 123", Toast.LENGTH_SHORT).show();
+                                }
+                            }, 500);
+
+
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<CheckOTPExpirationResponse> call, Throwable t) {
+
+                        shimmerFrameLayout.stopShimmer();
+                        llShimmer.setVisibility(View.GONE);
+                        rl_one.setVisibility(View.GONE);
+                        rl_try_again.setVisibility(View.VISIBLE);
+                        btn_try_again.setOnClickListener(v -> {
+                            shimmerFrameLayout.startShimmer();
+                            llShimmer.setVisibility(View.VISIBLE);
+                            rl_try_again.setVisibility(View.GONE);
+                            Handler handler1 = new Handler();
+                            handler1.postDelayed(() -> data_phone_one(), 0);
+                        });
+
+                    }
+                });
+
+
+            }
+            else
+            {
+
+                shimmerFrameLayout.stopShimmer();
+                llShimmer.setVisibility(View.GONE);
+                rl_one.setVisibility(View.GONE);
+                rl_no_internet.setVisibility(View.VISIBLE);
+                btn_no_internet.setVisibility(View.VISIBLE);
+                btn_no_internet.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        shimmerFrameLayout.startShimmer();
+                        llShimmer.setVisibility(View.VISIBLE);
+                        btn_no_internet.setVisibility(View.GONE);
+                        rl_no_internet.setVisibility(View.GONE);
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                data_phone_one();
+                            }
+                        },500);
+                    }
+                });
+
+            }
+        }catch (Exception e){e.printStackTrace();}
+
+
+    }
 
 
     boolean doubleBackToExitPressedOnce = false;

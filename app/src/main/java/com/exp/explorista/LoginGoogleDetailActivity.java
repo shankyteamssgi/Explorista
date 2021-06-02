@@ -33,6 +33,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 
 import com.exp.explorista.api.ApiService;
 import com.exp.explorista.helper.RetrofitClient;
+import com.exp.explorista.model.CheckOTPExpirationResponse;
 import com.exp.explorista.model.LoginGoogleSubmitResponse;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.auth.api.Auth;
@@ -76,6 +77,7 @@ public class LoginGoogleDetailActivity extends AppCompatActivity implements  Goo
     LinearLayout llShimmer,get_numbers,ll_back_login_google_detail;
     ShimmerFrameLayout shimmerFrameLayout;
     ImageView imageView;
+    String personName,personEmail;
 
     @SuppressLint("CutPasteId")
     @Override
@@ -117,10 +119,10 @@ public class LoginGoogleDetailActivity extends AppCompatActivity implements  Goo
         // editor.apply();
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(LoginGoogleDetailActivity.this);
         if (acct != null) {
-            String personName = acct.getDisplayName();
+            personName = acct.getDisplayName();
             String personGivenName = acct.getGivenName();
             String personFamilyName = acct.getFamilyName();
-            String personEmail = acct.getEmail();
+             personEmail = acct.getEmail();
             String personId = acct.getId();
             Uri personPhoto = acct.getPhotoUrl();
             tv_name_login_google.setText(personName);
@@ -284,6 +286,8 @@ public class LoginGoogleDetailActivity extends AppCompatActivity implements  Goo
                 SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference, Context.MODE_PRIVATE);
                 String cust_name = sharedPreferences.getString("key_login_google_name_user_not_exist","");
                 String cust_email = sharedPreferences.getString("key_login_google_email_user_not_exist","");
+                //key_login_google_email
+                String cust_email_final = sharedPreferences.getString("key_login_google_email","");
                 String unique_one = sharedPreferences.getString("key_value_three","");
                 final String cust_phone = et_phone_login_google.getText().toString();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -291,12 +295,49 @@ public class LoginGoogleDetailActivity extends AppCompatActivity implements  Goo
                 editor.apply();
                 final ApiService service = RetrofitClient.getApiService();
 
-                Call<LoginGoogleSubmitResponse> call = service.getLoginGoogleSubmit(cust_phone);
+                Call<LoginGoogleSubmitResponse> call = service.getLoginGoogleSubmit(cust_phone,cust_email);
                 call.enqueue(new Callback<LoginGoogleSubmitResponse>() {
                     @Override
                     public void onResponse(Call<LoginGoogleSubmitResponse> call, Response<LoginGoogleSubmitResponse> response) {
 
-                        if(response.body().getMessageResponse().equals("mn existing customer regd otp updated"))
+                        if(response.body().getMessageResponse().equals("user already exist"))
+                        {
+
+                            Toast.makeText(LoginGoogleDetailActivity.this, response.body().getMessageResponse(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LoginGoogleDetailActivity.this, LoginOrSignUpActivity.class);
+                            startActivity(intent);
+                            SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("key_login_google_phone_fn",et_phone_login_google.getText().toString());
+                            editor.putString("key_name_google",cust_name);
+                            editor.putString("key_email_google",cust_email);
+                            editor.putString("key_value_three_fn",unique_one);
+                            editor.apply();
+                            SharedPreferences sharedPreferences111 = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
+                            SharedPreferences.Editor editor111 = sharedPreferences111.edit();
+                            editor111.clear();
+                            editor111.apply();
+                            mGoogleSignInClient.signOut()
+                                    .addOnCompleteListener(LoginGoogleDetailActivity.this, new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            // ...
+                                            Toast.makeText(LoginGoogleDetailActivity.this, "Logged out current gmail account", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        }
+                                    });
+                            tv_name_login_google.setText(cust_name);
+                            tv_gmail_login_google.setText(cust_email);
+
+                            rl_one.setVisibility(View.VISIBLE);
+                            shimmerFrameLayout.stopShimmer();
+                            llShimmer.setVisibility(View.GONE);
+                            et_phone_login_google.setText("");
+
+                        }
+
+
+                       else if(response.body().getMessageResponse().equals("mn existing customer regd otp updated"))
                         {
 
                             Toast.makeText(LoginGoogleDetailActivity.this, response.body().getMessageResponse(), Toast.LENGTH_SHORT).show();
@@ -487,26 +528,18 @@ public class LoginGoogleDetailActivity extends AppCompatActivity implements  Goo
         {
             if((sharedPreferences.getString("key_value_three_fn", null) != null ))
             {
-
+                data_value_three_fn_one();
                 //  Intent intent1 = new Intent(LoginOrSignUpActivity.this,LoginPhoneOTPVerificationNotExistUserActivity.class);
-                Intent intent = new Intent(LoginGoogleDetailActivity.this, LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.class);
-                startActivity(intent);
-                mGoogleSignInClient.signOut()
-                        .addOnCompleteListener(LoginGoogleDetailActivity.this, new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                // ...
-                                Toast.makeText(LoginGoogleDetailActivity.this, "Logged out current gmail account", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-                        });
+
 
             }
             else  if((sharedPreferences_three.getString("key_one_one_one", null) != null ))
             {
 
-                Intent intent = new Intent(LoginGoogleDetailActivity.this, LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.class);
-                startActivity(intent);
+
+                data_value_three_fn_two();
+             //   Intent intent = new Intent(LoginGoogleDetailActivity.this, LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.class);
+               // startActivity(intent);
 
 
             }
@@ -514,6 +547,243 @@ public class LoginGoogleDetailActivity extends AppCompatActivity implements  Goo
         }
         catch (Exception e)
         { e.printStackTrace(); }
+
+    }
+
+    private void data_value_three_fn_two() {
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference, MODE_PRIVATE);
+        String cust_phone = sharedPreferences.getString("key_phone_three","");
+
+        try{
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (Objects.requireNonNull(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)).getState() == NetworkInfo.State.CONNECTED ||
+                    Objects.requireNonNull(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)).getState() == NetworkInfo.State.CONNECTED || (Objects.requireNonNull(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)).getState() == NetworkInfo.State.CONNECTED  && Objects.requireNonNull(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)).getState() == NetworkInfo.State.CONNECTED) ) {
+
+                rl_one.setVisibility(View.GONE);
+                shimmerFrameLayout.startShimmer();
+                llShimmer.setVisibility(View.VISIBLE);
+                ApiService api = RetrofitClient.getApiService();
+                Call<CheckOTPExpirationResponse> call = api.getCheckOTPExpiration(cust_phone);
+                call.enqueue(new Callback<CheckOTPExpirationResponse>() {
+                    @Override
+                    public void onResponse(Call<CheckOTPExpirationResponse> call, Response<CheckOTPExpirationResponse> response) {
+
+                        assert response.body() != null;
+                        if (response.body().getMessageResponse().equals("otp not expired")) {
+
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    Intent intent = new Intent(LoginGoogleDetailActivity.this, LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.class);
+                                    startActivity(intent);
+
+                                    rl_one.setVisibility(View.GONE);
+                                    shimmerFrameLayout.startShimmer();
+                                    llShimmer.setVisibility(View.VISIBLE);
+                                }
+                            }, 500);
+
+
+                        } else if (response.body().getMessageResponse().equals("otp expired")) {
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
+                                    //  @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    String personEmail_fn = sharedPreferences.getString("key_login_google_email_user_not_exist","");
+                                    String personName_fn = sharedPreferences.getString("key_login_google_name_user_not_exist","");
+                                    tv_name_login_google.setText(personName_fn);
+                                    tv_gmail_login_google.setText(personEmail_fn);
+                                    rl_one.setVisibility(View.VISIBLE);
+                                    shimmerFrameLayout.stopShimmer();
+                                    llShimmer.setVisibility(View.GONE);
+                                    Toast.makeText(LoginGoogleDetailActivity.this, "otp expired 123", Toast.LENGTH_SHORT).show();
+                                }
+                            }, 500);
+
+
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<CheckOTPExpirationResponse> call, Throwable t) {
+
+                        shimmerFrameLayout.stopShimmer();
+                        llShimmer.setVisibility(View.GONE);
+                        rl_one.setVisibility(View.GONE);
+                        rl_try_again.setVisibility(View.VISIBLE);
+                        btn_try_again.setOnClickListener(v -> {
+                            shimmerFrameLayout.startShimmer();
+                            llShimmer.setVisibility(View.VISIBLE);
+                            rl_try_again.setVisibility(View.GONE);
+                            Handler handler1 = new Handler();
+                            handler1.postDelayed(() -> data_value_three_fn_two(), 0);
+                        });
+
+                    }
+                });
+
+
+            }
+            else
+            {
+
+                shimmerFrameLayout.stopShimmer();
+                llShimmer.setVisibility(View.GONE);
+                rl_one.setVisibility(View.GONE);
+                rl_no_internet.setVisibility(View.VISIBLE);
+                btn_no_internet.setVisibility(View.VISIBLE);
+                btn_no_internet.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        shimmerFrameLayout.startShimmer();
+                        llShimmer.setVisibility(View.VISIBLE);
+                        btn_no_internet.setVisibility(View.GONE);
+                        rl_no_internet.setVisibility(View.GONE);
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                data_value_three_fn_two();
+                            }
+                        },500);
+                    }
+                });
+
+            }
+        }catch (Exception e){e.printStackTrace();}
+
+    }
+
+    private void data_value_three_fn_one() {
+
+
+            SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference, MODE_PRIVATE);
+            String cust_phone = sharedPreferences.getString("key_phone_three","");
+
+            try{
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                if (Objects.requireNonNull(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)).getState() == NetworkInfo.State.CONNECTED ||
+                        Objects.requireNonNull(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)).getState() == NetworkInfo.State.CONNECTED || (Objects.requireNonNull(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)).getState() == NetworkInfo.State.CONNECTED  && Objects.requireNonNull(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)).getState() == NetworkInfo.State.CONNECTED) ) {
+
+                    rl_one.setVisibility(View.GONE);
+                    shimmerFrameLayout.startShimmer();
+                    llShimmer.setVisibility(View.VISIBLE);
+                    ApiService api = RetrofitClient.getApiService();
+                    Call<CheckOTPExpirationResponse> call = api.getCheckOTPExpiration(cust_phone);
+                    call.enqueue(new Callback<CheckOTPExpirationResponse>() {
+                        @Override
+                        public void onResponse(Call<CheckOTPExpirationResponse> call, Response<CheckOTPExpirationResponse> response) {
+
+                            assert response.body() != null;
+                            if (response.body().getMessageResponse().equals("otp not expired")) {
+
+
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Intent intent = new Intent(LoginGoogleDetailActivity.this, LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.class);
+                                        startActivity(intent);
+                                        mGoogleSignInClient.signOut()
+                                                .addOnCompleteListener(LoginGoogleDetailActivity.this, new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        // ...
+                                                        Toast.makeText(LoginGoogleDetailActivity.this, "Logged out current gmail account", Toast.LENGTH_SHORT).show();
+                                                        finish();
+                                                    }
+                                                });
+                                        rl_one.setVisibility(View.GONE);
+                                        shimmerFrameLayout.startShimmer();
+                                        llShimmer.setVisibility(View.VISIBLE);
+                                    }
+                                }, 500);
+
+
+                            } else if (response.body().getMessageResponse().equals("otp expired")) {
+
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
+                                      //  @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        String personEmail_fn = sharedPreferences.getString("key_login_google_email_user_not_exist","");
+                                        String personName_fn = sharedPreferences.getString("key_login_google_name_user_not_exist","");
+                                        tv_name_login_google.setText(personName_fn);
+                                        tv_gmail_login_google.setText(personEmail_fn);
+                                        rl_one.setVisibility(View.VISIBLE);
+                                        shimmerFrameLayout.stopShimmer();
+                                        llShimmer.setVisibility(View.GONE);
+                                        Toast.makeText(LoginGoogleDetailActivity.this, "otp expired 123", Toast.LENGTH_SHORT).show();
+                                    }
+                                }, 500);
+
+
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<CheckOTPExpirationResponse> call, Throwable t) {
+
+                            shimmerFrameLayout.stopShimmer();
+                            llShimmer.setVisibility(View.GONE);
+                            rl_one.setVisibility(View.GONE);
+                            rl_try_again.setVisibility(View.VISIBLE);
+                            btn_try_again.setOnClickListener(v -> {
+                                shimmerFrameLayout.startShimmer();
+                                llShimmer.setVisibility(View.VISIBLE);
+                                rl_try_again.setVisibility(View.GONE);
+                                Handler handler1 = new Handler();
+                                handler1.postDelayed(() -> data_value_three_fn_one(), 0);
+                            });
+
+                        }
+                    });
+
+
+                }
+                else
+                {
+
+                    shimmerFrameLayout.stopShimmer();
+                    llShimmer.setVisibility(View.GONE);
+                    rl_one.setVisibility(View.GONE);
+                    rl_no_internet.setVisibility(View.VISIBLE);
+                    btn_no_internet.setVisibility(View.VISIBLE);
+                    btn_no_internet.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            shimmerFrameLayout.startShimmer();
+                            llShimmer.setVisibility(View.VISIBLE);
+                            btn_no_internet.setVisibility(View.GONE);
+                            rl_no_internet.setVisibility(View.GONE);
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    data_value_three_fn_one();
+                                }
+                            },500);
+                        }
+                    });
+
+                }
+            }catch (Exception e){e.printStackTrace();}
+
 
     }
 

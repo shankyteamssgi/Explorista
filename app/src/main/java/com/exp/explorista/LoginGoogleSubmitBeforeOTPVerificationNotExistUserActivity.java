@@ -41,6 +41,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,6 +66,7 @@ public class LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity extends 
     TextView tv_phone_log_google_ver;
     private static final int REQ_USER_CONSENT = 200;
     SmsBroadcastReceiver smsBroadcastReceiver;
+    Timer timer;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -71,6 +74,23 @@ public class LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity extends 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_google_submit_before_o_t_p_verification_not_exist_user);
         startSmsUserConsent();
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+                runOnUiThread(() -> {
+                    SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.clear();
+                    editor.apply();
+                    Intent intent = new Intent(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this,LoginOrSignUpActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    timer.cancel();
+                });
+            }
+        }, 300000, 1000);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -469,43 +489,43 @@ public class LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity extends 
 
                     }
 
-                   else   if (response.body().getMessageResponse().equals("user already exist"))
-                    {
-                        Toast.makeText(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this, "111111111", Toast.LENGTH_SHORT).show();
-
-                        Toast.makeText(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this, "Data success 123", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this,LoginOrSignUpActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("key_fn_dashboard_email",cust_email);
-                        editor.putString("key_login_google_phone_fn_dashboard",cust_phone);
-                        editor.putString("key_value_three_fn_dashboard",unique_two);
-                        editor.apply();
-                        SharedPreferences sharedPreferences11 = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
-                        SharedPreferences.Editor editor11 = sharedPreferences11.edit();
-                        editor11.clear();
-                        editor11.apply();
-                        mGoogleSignInClient.signOut()
-                                .addOnCompleteListener(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this, new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        // ...
-                                        Toast.makeText(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this, "Logged out current gmail account", Toast.LENGTH_SHORT).show();
-                                        finish();
-                                    }
-                                });
-                        otp_textbox_one.setText("");
-                        otp_textbox_two.setText("");
-                        otp_textbox_three.setText("");
-                        otp_textbox_four.setText("");
-                        ll_otp.setVisibility(View.VISIBLE);
-                        shimmerFrameLayout.stopShimmer();
-                        llShimmer.setVisibility(View.GONE);
-
-                    }
+//                   else   if (response.body().getMessageResponse().equals("user already exist"))
+//                    {
+//                        Toast.makeText(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this, "111111111", Toast.LENGTH_SHORT).show();
+//
+//                        Toast.makeText(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this, "Data success 123", Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this,LoginOrSignUpActivity.class);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                        startActivity(intent);
+//                        SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
+//                        SharedPreferences.Editor editor = sharedPreferences.edit();
+//                        editor.putString("key_fn_dashboard_email",cust_email);
+//                        editor.putString("key_login_google_phone_fn_dashboard",cust_phone);
+//                        editor.putString("key_value_three_fn_dashboard",unique_two);
+//                        editor.apply();
+//                        SharedPreferences sharedPreferences11 = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
+//                        SharedPreferences.Editor editor11 = sharedPreferences11.edit();
+//                        editor11.clear();
+//                        editor11.apply();
+//                        mGoogleSignInClient.signOut()
+//                                .addOnCompleteListener(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this, new OnCompleteListener<Void>() {
+//                                    @Override
+//                                    public void onComplete(@NonNull Task<Void> task) {
+//                                        // ...
+//                                        Toast.makeText(LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity.this, "Logged out current gmail account", Toast.LENGTH_SHORT).show();
+//                                        finish();
+//                                    }
+//                                });
+//                        otp_textbox_one.setText("");
+//                        otp_textbox_two.setText("");
+//                        otp_textbox_three.setText("");
+//                        otp_textbox_four.setText("");
+//                        ll_otp.setVisibility(View.VISIBLE);
+//                        shimmerFrameLayout.stopShimmer();
+//                        llShimmer.setVisibility(View.GONE);
+//
+//                    }
 
 
                     else if (response.body().getMessageResponse().equals("not mn existing customer regd google data updated"))
@@ -778,6 +798,7 @@ public class LoginGoogleSubmitBeforeOTPVerificationNotExistUserActivity extends 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        timer.cancel();
         mGoogleSignInClient.signOut()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override

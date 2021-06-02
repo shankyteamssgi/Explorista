@@ -33,6 +33,8 @@ import com.google.android.gms.auth.api.phone.SmsRetriever;
 import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
 
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,13 +55,30 @@ public class RegistrationPhoneSubmitOTPVerificationActivity extends AppCompatAct
         TextView tv_phone_reg_ver;
         private static final int REQ_USER_CONSENT = 200;
        SmsBroadcastReceiver smsBroadcastReceiver;
-
+       Timer timer;
         @SuppressLint("SetTextI18n")
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_registration_phone_submit_o_t_p_verification);
             startSmsUserConsent();
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+
+                    runOnUiThread(() -> {
+                        SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.apply();
+                        Intent intent = new Intent(RegistrationPhoneSubmitOTPVerificationActivity.this,LoginOrSignUpActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        timer.cancel();
+                    });
+                }
+            }, 300000, 1000);
             tv_phone_reg_ver = findViewById(R.id.tv_phone_registration_verification);
             SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference, Context.MODE_PRIVATE);
             String cust_phone = sharedPreferences.getString("key_phone_two","");
@@ -601,6 +620,7 @@ public class RegistrationPhoneSubmitOTPVerificationActivity extends AppCompatAct
     public void onBackPressed()
     {
         super.onBackPressed();
+        timer.cancel();
         Intent intent = new Intent(RegistrationPhoneSubmitOTPVerificationActivity.this,LoginOrSignUpActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -32,7 +32,11 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.auth.api.phone.SmsRetriever;
 import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,23 +61,36 @@ public class LoginPhoneSubmitOTPVerificationActivity extends AppCompatActivity {
     TextView textViewMessage;
    // EditText otpText;
 
+    Timer timer;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_phone_submit_o_t_p_verification);
         startSmsUserConsent();
+         timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+                runOnUiThread(() -> {
+                    SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.clear();
+                    editor.apply();
+                    Intent intent = new Intent(LoginPhoneSubmitOTPVerificationActivity.this,LoginOrSignUpActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    timer.cancel();
+                });
+            }
+        }, 300000, 1000);
         tv_phone_log_ver = findViewById(R.id.tv_phone_login_verification);
         SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference, Context.MODE_PRIVATE);
         String cust_phone = sharedPreferences.getString("key_phone_one","");
         tv_phone_log_ver.setText("Enter the verifcation code we just sent you on your Mobile-number "+cust_phone+".");
         imageView = findViewById(R.id.image_back_login_exist);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        imageView.setOnClickListener(v -> onBackPressed());
         rl_no_internet = findViewById(R.id.rl_no_internet);
         rl_try_again = findViewById(R.id.rl_try_again);
         btn_no_internet = findViewById(R.id.btn_no_internet);
@@ -590,12 +607,14 @@ public class LoginPhoneSubmitOTPVerificationActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         registerBroadcastReceiver();
+
         SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference, MODE_PRIVATE);
         try
         {
             if((sharedPreferences.getString("key_phone_one_otp_verify_data_exist", null) != null ))
             {
 
+                
                 //  Intent intent1 = new Intent(LoginOrSignUpActivity.this,LoginPhoneOTPVerificationNotExistUserActivity.class);
                 Intent intent = new Intent(LoginPhoneSubmitOTPVerificationActivity.this, DashboardActivity.class);
                 startActivity(intent);
@@ -619,6 +638,7 @@ public class LoginPhoneSubmitOTPVerificationActivity extends AppCompatActivity {
     public void onBackPressed()
     {
             super.onBackPressed();
+           timer.cancel();
             Intent intent = new Intent(LoginPhoneSubmitOTPVerificationActivity.this,LoginOrSignUpActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
