@@ -102,7 +102,14 @@ public class LoginGoogleDetailActivity extends AppCompatActivity implements  Goo
         llShimmer = findViewById(R.id.ll_shimmer_customer_login_google_detail);
         shimmerFrameLayout = findViewById(R.id.shimmerFrameLayout_customer_login_google_detail);
         et_phone_login_google = findViewById(R.id.txt_phone_login_google_detail);
-        requestPhoneNumber();
+        et_phone_login_google.setOnFocusChangeListener((v, hasFocus) -> {
+
+            if (hasFocus) {
+                // Here's the key code
+                requestPhoneNumber();
+            }
+
+        });
         tv_name_login_google = findViewById(R.id.tv_name_login_google_detail);
         tv_gmail_login_google = findViewById(R.id.tv_gmail_login_google_detail);
         btn_login_google_submit = findViewById(R.id.btnLoginGoogleDetailSubmit);
@@ -153,6 +160,7 @@ public class LoginGoogleDetailActivity extends AppCompatActivity implements  Goo
             public void onClick(View v) {
                 if (et_phone_login_google.getText().toString().isEmpty())
                 {
+                    requestPhoneNumber();
                     et_phone_login_google.setError("Mobile Number is required");
                     isPhoneValid = false;
                 }
