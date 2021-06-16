@@ -815,18 +815,57 @@ public class LoginOrSignUpActivity extends AppCompatActivity
 
         try
         {
-            if((sharedPreferences.getString("key_phone_one", null) != null ))
+            if(sharedPreferences.getString("key_phone_one", null) != null )
             {
-                data_phone_one();
 
-               //  Intent intent1 = new Intent(LoginOrSignUpActivity.this,LoginPhoneOTPVerificationNotExistUserActivity.class);
+                if (sharedPreferences.getString("key_data_phone_one_one",null) != null)
+                {
+
+                      Intent intent1 = new Intent(LoginOrSignUpActivity.this,DashboardActivity.class);
+                      startActivity(intent1);
+
+                }
+                else if (sharedPreferences.getString("key_data_phone_one_two",null) != null)
+                {
+
+                    Intent intent1 = new Intent(LoginOrSignUpActivity.this,LoginPhoneNameFinalSubmitActivity.class);
+                    startActivity(intent1);
+
+                }
+                else
+                {
+                    data_phone_one();
+                }
+
+
+
 
 
             }
            else  if((sharedPreferences.getString("key_phone_two", null) != null ))
             {
 
-                data_phone_two();
+
+                if (sharedPreferences.getString("key_data_phone_two_one",null) != null)
+                {
+
+                    Intent intent1 = new Intent(LoginOrSignUpActivity.this,DashboardActivity.class);
+                    startActivity(intent1);
+
+                }
+                else if (sharedPreferences.getString("key_data_phone_two_two",null) != null)
+                {
+
+                    Intent intent1 = new Intent(LoginOrSignUpActivity.this,RegistrationPhoneNameFinalSubmitActivity.class);
+                    startActivity(intent1);
+
+                }
+                else
+                {
+                    data_phone_two();
+                }
+
+
 
                 //  Intent intent1 = new Intent(LoginOrSignUpActivity.this,LoginPhoneOTPVerificationNotExistUserActivity.class);
 //                Intent intent = new Intent(LoginOrSignUpActivity.this, RegistrationPhoneSubmitOTPVerificationActivity.class);

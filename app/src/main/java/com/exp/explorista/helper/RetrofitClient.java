@@ -9,12 +9,11 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient
-
 {
 
     private static final String ROOT_URL = "http://3.16.188.152/explorista_customer/";
     // 3.16.188.152
-   
+    // 192.168.43.226
     private static synchronized Retrofit getRetrofitInstance()
     {
 

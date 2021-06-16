@@ -458,6 +458,7 @@ public class RegistrationPhoneSubmitOTPVerificationActivity extends AppCompatAct
                         SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("key_phone_two_otp_verify_data_exist",cust_phone);
+                        editor.putString("key_data_phone_two_one","1");
                         editor.apply();
                         //                      try {
                         //                        if ((sharedPreferences.getString("key_phone_one", null) != null)) {
@@ -482,6 +483,7 @@ public class RegistrationPhoneSubmitOTPVerificationActivity extends AppCompatAct
                         SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference,MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("key_phone_two_otp_verify_data_not_exist",cust_phone);
+                        editor.putString("key_data_phone_two_two","2");
                         editor.apply();
                         //                      try {
                         //                        if ((sharedPreferences.getString("key_phone_one", null) != null)) {
@@ -594,22 +596,22 @@ public class RegistrationPhoneSubmitOTPVerificationActivity extends AppCompatAct
         SharedPreferences sharedPreferences = getSharedPreferences(SharedConfig.mypreference, MODE_PRIVATE);
         try
         {
-            if((sharedPreferences.getString("key_phone_two_otp_verify_data_exist", null) != null ))
-            {
-
-                //  Intent intent1 = new Intent(LoginOrSignUpActivity.this,LoginPhoneOTPVerificationNotExistUserActivity.class);
-                Intent intent = new Intent(RegistrationPhoneSubmitOTPVerificationActivity.this, DashboardActivity.class);
-                startActivity(intent);
-
-            }
-            else if((sharedPreferences.getString("key_phone_two_otp_verify_data_not_exist", null) != null ))
-            {
-
-                //  Intent intent1 = new Intent(LoginOrSignUpActivity.this,LoginPhoneOTPVerificationNotExistUserActivity.class);
-                Intent intent = new Intent(RegistrationPhoneSubmitOTPVerificationActivity.this, RegistrationPhoneNameFinalSubmitActivity.class);
-                startActivity(intent);
-
-            }
+//            if((sharedPreferences.getString("key_phone_two_otp_verify_data_exist", null) != null ))
+//            {
+//
+//                //  Intent intent1 = new Intent(LoginOrSignUpActivity.this,LoginPhoneOTPVerificationNotExistUserActivity.class);
+//                Intent intent = new Intent(RegistrationPhoneSubmitOTPVerificationActivity.this, DashboardActivity.class);
+//                startActivity(intent);
+//
+//            }
+//            else if((sharedPreferences.getString("key_phone_two_otp_verify_data_not_exist", null) != null ))
+//            {
+//
+//                //  Intent intent1 = new Intent(LoginOrSignUpActivity.this,LoginPhoneOTPVerificationNotExistUserActivity.class);
+//                Intent intent = new Intent(RegistrationPhoneSubmitOTPVerificationActivity.this, RegistrationPhoneNameFinalSubmitActivity.class);
+//                startActivity(intent);
+//
+//            }
         }
         catch (Exception e)
         { e.printStackTrace(); }

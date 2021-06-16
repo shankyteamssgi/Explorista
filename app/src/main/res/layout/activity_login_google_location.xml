@@ -243,7 +243,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="20dp"
                         android:singleLine="true"
-                        android:background="@drawable/login_or_sign_up_ctm_bg"
+                        android:background="@drawable/ctm_black_bg"
                         android:fontFamily="@font/philosopher_regular"
                         android:gravity="center"
                         android:text="@string/txt_use_current_location"

@@ -221,7 +221,7 @@
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/philosopher"
+                                android:fontFamily="@font/metropolis_medium"
                                 android:gravity="center"
                                 android:text="@string/explorista_txt"
                                 android:textAlignment="gravity"
@@ -343,7 +343,7 @@
                                 android:layout_height="35dp"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="20dp"
-                                android:background="@drawable/login_or_sign_up_ctm_bg"
+                                android:background="@drawable/ctm_black_bg"
                                 android:fontFamily="@font/philosopher_regular"
                                 android:gravity="center"
                                 android:text="@string/txt_proceed"

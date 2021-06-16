@@ -179,5 +179,4 @@ public class DashboardActivity extends AppCompatActivity {
             }
         }, 2000);
     }
-
 }

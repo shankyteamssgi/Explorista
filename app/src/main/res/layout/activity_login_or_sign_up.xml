@@ -169,7 +169,7 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/philosopher"
+                        android:fontFamily="@font/metropolis_medium"
                         android:gravity="center"
                         android:text="@string/explorista_txt"
                         android:textAlignment="gravity"
@@ -188,7 +188,6 @@
                     android:background="@drawable/custom_rectangle"
                     android:orientation="horizontal"
                     android:baselineAligned="false">
-
 
                     <LinearLayout
                         android:layout_weight="1"
@@ -288,7 +287,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="60dp"
-                                android:autofillHints=""
                                 android:digits="0123456789"
                                 android:fontFamily="@font/philosopher_regular"
                                 android:inputType="number"
@@ -307,7 +305,7 @@
                             android:layout_height="35dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="30dp"
-                            android:background="@drawable/login_or_sign_up_ctm_bg"
+                            android:background="@drawable/ctm_black_bg"
                             android:fontFamily="@font/philosopher_regular"
                             android:gravity="center"
                             android:text="@string/txt_proceed"
@@ -362,7 +360,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="60dp"
-                                android:autofillHints=""
                                 android:digits="0123456789"
                                 android:fontFamily="@font/philosopher_regular"
                                 android:inputType="number"
@@ -380,7 +377,7 @@
                                 android:layout_height="35dp"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="30dp"
-                                android:background="@drawable/login_or_sign_up_ctm_bg"
+                                android:background="@drawable/ctm_black_bg"
                                 android:fontFamily="@font/philosopher_regular"
                                 android:gravity="center"
                                 android:text="@string/txt_proceed"
@@ -420,6 +417,7 @@
         android:rotation="180"
         android:src="@drawable/custom_triangular_shape"
         android:contentDescription="@string/app_name" />
+
 </LinearLayout>
     <RelativeLayout
         android:orientation="horizontal"

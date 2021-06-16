@@ -10,7 +10,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -34,12 +34,18 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.google.android.gms:play-services-base:17.6.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
     //Optional for phone number hint
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
-    implementation 'com.google.android.gms:play-services-auth-api-phone:17.5.0'
+    implementation 'com.google.android.gms:play-services-auth-api-phone:17.5.1'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.14.9'
-    implementation "com.squareup.okhttp3:logging-interceptor:3.12.8"
+
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.4.1'
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.4.1'
+
+//    implementation 'com.squareup.okhttp3:okhttp:4.0.1'
+//    implementation "com.squareup.okhttp3:logging-interceptor:4.0.1"
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation 'com.razorpay:checkout:1.5.16'
